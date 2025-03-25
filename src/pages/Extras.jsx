@@ -5,8 +5,8 @@ import samplePhoto from "../assets/image.png";
 function ListContainer({ list }) {
   return (
     <div>
-      <div className="max-w-[1140px] px-6 mx-auto">
-        <ul className="grid grid-cols-3 gap-8 font-zilla">
+      <div className="max-w-[1140px] px-4 sm:px-6 mx-auto">
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 font-zilla">
           {list.map((project, index) => {
             return (
               <Tile key={index} imgSrc={project.imgSrc} title={project.title} />
@@ -27,6 +27,7 @@ export function Extras() {
     { imgSrc: samplePhoto, title: "Privacy in the Digital Age" },
     { imgSrc: samplePhoto, title: "The Future of AI" },
   ];
+
   const learningList = [
     { imgSrc: samplePhoto, title: "Exploring the Metaverse" },
     { imgSrc: samplePhoto, title: "Data Security Challenges" },
@@ -59,22 +60,23 @@ export function Extras() {
         description="Explore my projects showcasing scalable, intuitive web applications. From interactive UI components to full-stack solutions, I aim to create seamless user experiences with a focus on clean, efficient code."
         backgroundColor="bg-indigo-400"
       />
-      <main>
+      <main className="py-6 md:py-8">
         <Navigation
           navItems={navItems}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
         />
-        <ListContainer list={getCurrentList()} />
-        <div className="h-12"></div>
+        <div className="mt-6 md:mt-8 mb-8 md:mb-12">
+          <ListContainer list={getCurrentList()} />
+        </div>
       </main>
-      <div className="bg-indigo-500 py-12">
+      <div className="bg-indigo-500 py-8 md:py-12">
         <div className="max-w-[1140px] mx-auto">
-          <div className="mt-6 px-4">
-            <p className="font-zilla text-[28px] text-white">
+          <div className="px-4 sm:px-6">
+            <p className="font-zilla text-xl sm:text-2xl md:text-[28px] text-white">
               We all love the web—let&apos;s keep it open and free!
             </p>
-            <p className="font-zilla text-[28px] mb-6 text-white">
+            <p className="font-zilla text-xl sm:text-2xl md:text-[28px] mb-4 md:mb-6 text-white">
               Support my work—buy me a coffee, fuel my coding!
             </p>
             <ButtonWhite

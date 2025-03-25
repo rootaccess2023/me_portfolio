@@ -6,8 +6,16 @@ import { Outlet } from "react-router-dom";
 import { ButtonIndigo, Logo } from "../components";
 import { SlGlobe } from "react-icons/sl";
 import { IoIosArrowDown } from "react-icons/io";
+import { useState } from "react";
+import { HiMenu, HiX } from "react-icons/hi";
 
 function Navigation() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
   const navList = [
     { name: "About", link: "/about" },
     { name: "Portfolio", link: "/portfolio" },
@@ -15,11 +23,37 @@ function Navigation() {
     { name: "Blog", link: "/blog" },
   ];
 
+  const scrollToContact = (e) => {
+    e.preventDefault();
+    const contactSection = document.querySelector('[data-section="contact"]');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: "smooth" });
+    }
+    // Close mobile menu if open
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  };
+
   return (
-    <header className="fixed top-0 w-full z-50 h-20 border-b bg-zinc-50 drop-shadow-sm shadow-sm">
-      <nav className="h-full max-w-[1092px] flex justify-between items-center mx-auto">
+    <header className="fixed top-0 w-full z-50 h-auto md:h-20 border-b bg-zinc-50 drop-shadow-sm shadow-sm">
+      <nav className="h-full max-w-[1092px] flex flex-wrap justify-between items-center mx-auto px-4 py-4 md:py-0">
         <Logo backgroundColor="bg-black" textColor="text-white" />
-        <ul className="flex items-center font-bold text-black space-x-6">
+
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden inline-flex items-center justify-center p-2 rounded-md text-black hover:text-indigo-800 focus:outline-none"
+          onClick={toggleMobileMenu}
+        >
+          {mobileMenuOpen ? (
+            <HiX className="h-6 w-6" />
+          ) : (
+            <HiMenu className="h-6 w-6" />
+          )}
+        </button>
+
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex items-center font-bold text-black space-x-6">
           {navList.map((nav, index) => {
             return (
               <a href={nav.link} key={index}>
@@ -29,10 +63,40 @@ function Navigation() {
               </a>
             );
           })}
-          <li className="flex items-center font-bold text-lg bg-indigo-500 hover:bg-blue-800 text-white px-4 py-2 cursor-pointer">
+          <button
+            onClick={scrollToContact}
+            className="font-bold text-base md:text-lg bg-indigo-500 hover:bg-indigo-800 text-white px-4 py-2 cursor-pointer transition-all duration-300 ease-in-out"
+          >
             Contact me
-          </li>
+          </button>
         </ul>
+
+        {/* Mobile Navigation */}
+        <div
+          className={`${
+            mobileMenuOpen ? "block" : "hidden"
+          } md:hidden w-full mt-4`}
+        >
+          <ul className="flex flex-col font-bold text-black space-y-4 pb-4">
+            {navList.map((nav, index) => {
+              return (
+                <a href={nav.link} key={index}>
+                  <li className="cursor-pointer text-[17px] hover:text-indigo-800 py-2 border-b border-gray-200">
+                    {nav.name}
+                  </li>
+                </a>
+              );
+            })}
+            <div className="w-full">
+              <button
+                onClick={scrollToContact}
+                className="w-full font-bold text-base md:text-lg bg-indigo-500 hover:bg-indigo-800 text-white px-4 py-2 cursor-pointer transition-all duration-300 ease-in-out"
+              >
+                Contact me
+              </button>
+            </div>
+          </ul>
+        </div>
       </nav>
     </header>
   );
@@ -40,11 +104,12 @@ function Navigation() {
 
 function Calendly() {
   return (
-    <div className="w-fit flex items-center font-bold text-lg bg-indigo-500 hover:bg-blue-800 text-white px-4 py-2 cursor-pointer">
+    <div className="w-full sm:w-fit">
       <PopupButton
         url="https://calendly.com/polo-revilo19"
         rootElement={document.getElementById("root")}
-        text="Schedulea meeting via Calendly"
+        text="Schedule a meeting via Calendly"
+        className="w-full flex items-center justify-center font-bold text-base md:text-lg bg-indigo-500 hover:bg-blue-800 text-white px-4 py-2 cursor-pointer transition-all duration-300 ease-in-out"
       />
     </div>
   );
@@ -52,123 +117,114 @@ function Calendly() {
 
 function Footer() {
   const navList = [
-    { name: "About" },
-    { name: "Portfolio" },
-    { name: "Extras" },
-    { name: "Blog" },
+    { name: "About", link: "/about" },
+    { name: "Portfolio", link: "/portfolio" },
+    { name: "Extras", link: "/extras" },
+    { name: "Blog", link: "/blog" },
   ];
 
   const iconList = [
-    { name: <FaGithubAlt /> },
-    { name: <BsFillEnvelopeFill /> },
-    { name: <FaLinkedin /> },
+    { name: <FaGithubAlt size={20} />, link: "https://github.com/" },
+    {
+      name: <BsFillEnvelopeFill size={20} />,
+      link: "mailto:polo.revilo19@gmail.com",
+    },
+    { name: <FaLinkedin size={20} />, link: "https://linkedin.com/" },
   ];
 
   return (
     <footer className="bg-black py-12">
-      <div className="h-96 max-w-[1140px] grid grid-cols-2 text-white mt-6 mx-auto">
-        <div className="h-full flex flex-col justify-between px-4">
+      <div className="max-w-[1140px] mx-auto px-8">
+        {/* Row 1: Developer info, More about me, Navigation */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-white mb-12">
           <div>
-            <p className="text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
+            <p className="text-xl md:text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
               Paulo Oliver - Front-End Developer
             </p>
-            <p className="text-lg mb-4">
+            <p className="text-base md:text-lg mb-8">
               Building seamless, high-performance digital experiences with
               React, TypeScript, and cutting-edge web technologies.
             </p>
-            <p className="text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
-              Get in Touch
-            </p>
-            <p className="text-lg mb-4">
-              Have a project in mind? Let&apos;s collaborate!
-            </p>
-            <div className="flex justify-between items-center">
-              <Calendly />
-              <p className="text-lg">or</p>
-              <ButtonIndigo
-                buttonText="Send me an email"
-                link="mailto:polo.revilo19@gmail.com?subject=🤘 Hi Paulo, I'd like to hire you"
-              />
-            </div>
           </div>
-          <Logo backgroundColor="bg-white" textColor="text-black" />
-        </div>
-        <div className="px-4">
-          <div className="flex mb-12">
-            <div className="px-8">
-              <p className="text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
-                More about me
-              </p>
-              <ul className="flex gap-4">
-                {iconList.map((icon, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className="cursor-pointer hover:text-indigo-300"
-                    >
+
+          <div>
+            <p className="text-xl md:text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
+              More about me
+            </p>
+            <ul className="flex gap-6">
+              {iconList.map((icon, index) => {
+                return (
+                  <a href={icon.link} key={index}>
+                    <li className="cursor-pointer hover:text-indigo-300 transition duration-300">
                       {icon.name}
                     </li>
-                  );
-                })}
-              </ul>
-            </div>
-            <ul className="flex flex-col gap-1 px-8">
-              {navList.map((name, index) => {
-                return (
-                  <li
-                    key={index}
-                    className="text-lg cursor-pointer hover:underline"
-                  >
-                    {name.name}
-                  </li>
+                  </a>
                 );
               })}
             </ul>
           </div>
-          <div className="px-4">
-            <div className="px-4">
-              <p className="text-[23.5px] font-zilla font-semibold leading-[1.3]">
+
+          <div>
+            <p className="text-xl md:text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
+              Navigation
+            </p>
+            <ul className="flex flex-col gap-2">
+              {navList.map((item, index) => {
+                return (
+                  <a href={item.link} key={index}>
+                    <li className="text-base md:text-lg cursor-pointer hover:underline hover:text-indigo-300 transition duration-300">
+                      {item.name}
+                    </li>
+                  </a>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+
+        {/* Row 2: Get in Touch section */}
+        <div
+          className="text-white border-t border-gray-800 pt-12 mb-12"
+          data-section="contact"
+        >
+          <div>
+            <p className="text-xl md:text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
+              Get in Touch
+            </p>
+            <p className="text-base md:text-lg mb-6">
+              Have a project in mind? Let&apos;s collaborate!
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 items-center">
+              <Calendly />
+              <p className="text-lg my-2 sm:my-0 sm:mx-4">or</p>
+              <ButtonIndigo
+                buttonText="Send me an email"
+                link="mailto:polo.revilo19@gmail.com?subject=🤘 Hi Paulo, I'd like to hire you"
+                icon={<BsFillEnvelopeFill className="w-4 h-4" />}
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Row 3: Built with Modern Technologies and Logo */}
+        <div className="text-white border-t border-gray-800 pt-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <p className="text-xl md:text-[23.5px] font-zilla font-semibold leading-[1.3]">
                 Built with Modern Technologies
               </p>
-              <p className="text-lg mb-4">
+              <p className="text-base md:text-lg">
                 <span className="text-indigo-300 hover:underline cursor-pointer">
                   Learn more
                 </span>{" "}
                 about my tech stack.
               </p>
             </div>
-          </div>
-          <form className="px-4 mt-12">
-            <div className="flex px-4 space-x-4">
-              <label
-                className="flex items-center gap-2 font-zilla text-[23.5px] font-semibold"
-                htmlFor="language"
-              >
-                <SlGlobe />
-                Language
-              </label>
-              <div className="relative w-full">
-                <select
-                  className="w-full text-[19px] bg-black border-2 px-3 py-1 appearance-none pr-10"
-                  name="language"
-                  id="language-switcher"
-                >
-                  <option value="de">Deutsch</option>
-                  <option value="en" selected="">
-                    English
-                  </option>
-                  <option value="es">Español</option>
-                  <option value="fr">Français</option>
-                  <option value="fy-NL">Frysk</option>
-                  <option value="sw">Kiswahili</option>
-                  <option value="nl">Nederlands</option>
-                  <option value="pl">Polski</option>
-                  <option value="pt-BR">Português</option>
-                </select>
-                <IoIosArrowDown className="absolute right-3 top-1/2 transform -translate-y-1/2 text-white text-2xl pointer-events-none" />
-              </div>
+
+            <div className="flex justify-start md:justify-end">
+              <Logo backgroundColor="bg-white" textColor="text-black" />
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </footer>
@@ -177,9 +233,9 @@ function Footer() {
 
 export function Template() {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col min-h-screen">
       <Navigation />
-      <div className="mt-20">
+      <div className="flex-grow mt-16 md:mt-20">
         <Outlet />
       </div>
       <Footer />

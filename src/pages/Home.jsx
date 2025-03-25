@@ -19,16 +19,31 @@ function Slider({
 }) {
   return (
     <div className={`h-full ${backgroundColor} mx-auto`}>
-      <div className="relative h-full max-w-[1040px] mx-auto">
-        <div className={`absolute w-[800px] drop-shadow ${position}`}>
-          <p className="bg-violet-100 text-[0.875rem] mb-4 w-fit text-neutral-900 px-4 rounded-full py-1">
+      <div className="relative h-full max-w-[1140px] mx-auto">
+        <div
+          className={`absolute w-[calc(100%-2rem)] md:w-4/5 lg:w-[800px] drop-shadow left-4 right-4 md:left-8 
+            ${
+              position === "bottom-12"
+                ? "bottom-6 sm:bottom-8 md:bottom-12"
+                : position
+            }`}
+        >
+          <p className="bg-violet-100 text-xs sm:text-sm mb-2 sm:mb-4 w-fit text-neutral-900 px-3 sm:px-4 rounded-full py-1">
             {date}
           </p>
-          <h1 className="font-zilla text-5xl mb-2 text-white">{title}</h1>
-          <p className="text-[20px] leading-[1.3] font-extralight text-neutral-50 mb-4">
+          <h1 className="font-zilla text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-2 text-white">
+            {title}
+          </h1>
+          <p className="text-base sm:text-lg md:text-[20px] leading-[1.3] font-extralight text-neutral-50 mb-2 sm:mb-4 line-clamp-3 md:line-clamp-none">
             {description}
           </p>
-          <ButtonWhite buttonText={buttonText} icon={<FiExternalLink />} />
+          <div className="mt-4">
+            <ButtonWhite
+              buttonText={buttonText}
+              icon={<FiExternalLink />}
+              link={link}
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -38,7 +53,7 @@ function Slider({
 function Main() {
   return (
     <div className="bg-white">
-      <div className="h-[600px] mx-auto">
+      <div className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-[600px] mx-auto">
         <Swiper
           fadeEffect={true}
           centeredSlides={true}
@@ -56,11 +71,11 @@ function Main() {
             <Slider
               backgroundColor="bg-gradient-to-t from-indigo-900 to-zinc-100"
               position="bottom-12"
-              title="Sampl Text"
+              title="Sample Text"
               date="14 FEBRUARY 2025"
               link="#"
               buttonText="Read more"
-              description="Lorem ipsum"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
             />
           </SwiperSlide>
           <SwiperSlide>
@@ -71,20 +86,18 @@ function Main() {
               date="14 FEBRUARY 2025"
               link="#"
               buttonText="Read more"
-              description="Lorem ipsum"
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
             />
           </SwiperSlide>
           <SwiperSlide>
             <Slider
               backgroundColor="bg-gradient-to-t from-blue-900 to-zinc-100"
               position="bottom-12"
-              title="Sample text"
+              title="Sample Text"
               date="14 FEBRUARY 2025"
               link="#"
               buttonText="Read more"
-              description="Lorem ipsum"
-              Lorem
-              ipsum
+              description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation."
             />
           </SwiperSlide>
         </Swiper>

@@ -1,3 +1,5 @@
+export * from "./about";
+
 export * from "./ButtonWhite";
 export * from "./ButtonIndigo";
 export * from "./Logo";
