@@ -199,7 +199,7 @@ function Navigation() {
           title: "Blog",
           description:
             "Insights, tutorials, and thoughts on web development trends, techniques, and best practices from my professional journey.",
-          cta: { text: "Read more", link: "/portfolio" },
+          cta: { text: "Read more", link: "/blog" },
         },
         sections: [
           {
