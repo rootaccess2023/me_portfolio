@@ -12,7 +12,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/portfolio",
+        path: "/portfolio/:category",
         element: <Portfolio />,
       },
       {
@@ -20,11 +20,11 @@ const router = createBrowserRouter([
         element: <Blog />,
       },
       {
-        path: "/about",
+        path: "/about/:section",
         element: <About />,
       },
       {
-        path: "/extras",
+        path: "/extras/:section",
         element: <Extras />,
       },
     ],

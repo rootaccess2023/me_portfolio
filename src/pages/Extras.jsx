@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ButtonWhite, Header, Navigation, Tile } from "../components";
 import samplePhoto from "../assets/image.png";
 
@@ -19,37 +20,62 @@ function ListContainer({ list }) {
 }
 
 export function Extras() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const navItems = ["Certificates", "Events", "Upskill"];
+  // Use URL parameters instead of state
+  const { section } = useParams();
+  const navigate = useNavigate();
 
-  const solutionList = [
+  // Define extras sections
+  const extrasSections = [
+    { id: "certificates", label: "Certificates" },
+    { id: "events", label: "Events" },
+    { id: "upskill", label: "Upskill" },
+  ];
+
+  // Redirect to default section if none specified
+  useEffect(() => {
+    if (!section) {
+      navigate("/extras/certificates", { replace: true });
+    }
+  }, [section, navigate]);
+
+  // Calculate the active index based on the current section
+  const activeIndex = extrasSections.findIndex((item) => item.id === section);
+
+  // Handle section changes
+  const setActiveSection = (index) => {
+    navigate(`/extras/${extrasSections[index].id}`);
+  };
+
+  // Content for each section
+  const certificatesList = [
     { imgSrc: samplePhoto, title: "WhatsApp Must Act to Protect Elections" },
     { imgSrc: samplePhoto, title: "Privacy in the Digital Age" },
     { imgSrc: samplePhoto, title: "The Future of AI" },
   ];
 
-  const learningList = [
+  const eventsList = [
     { imgSrc: samplePhoto, title: "Exploring the Metaverse" },
     { imgSrc: samplePhoto, title: "Data Security Challenges" },
     { imgSrc: samplePhoto, title: "Sustainable Tech Innovations" },
   ];
 
-  const archiveList = [
+  const upskillList = [
     { imgSrc: samplePhoto, title: "Sustainable Tech Innovations" },
     { imgSrc: samplePhoto, title: "The Rise of Remote Work" },
     { imgSrc: samplePhoto, title: "Digital Privacy Laws" },
   ];
 
+  // Get the current list based on the URL section
   const getCurrentList = () => {
-    switch (activeIndex) {
-      case 0:
-        return solutionList;
-      case 1:
-        return learningList;
-      case 2:
-        return archiveList;
+    switch (section) {
+      case "certificates":
+        return certificatesList;
+      case "events":
+        return eventsList;
+      case "upskill":
+        return upskillList;
       default:
-        return solutionList;
+        return certificatesList;
     }
   };
 
@@ -57,14 +83,14 @@ export function Extras() {
     <>
       <Header
         title="Extras"
-        description="Explore my projects showcasing scalable, intuitive web applications. From interactive UI components to full-stack solutions, I aim to create seamless user experiences with a focus on clean, efficient code."
+        description="Explore additional resources, tools, and side projects that complement my main portfolio work."
         backgroundColor="bg-indigo-400"
       />
       <main className="py-6 md:py-8">
         <Navigation
-          navItems={navItems}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
+          navItems={extrasSections.map((item) => item.label)}
+          activeIndex={activeIndex !== -1 ? activeIndex : 0}
+          setActiveIndex={setActiveSection}
         />
         <div className="mt-6 md:mt-8 mb-8 md:mb-12">
           <ListContainer list={getCurrentList()} />

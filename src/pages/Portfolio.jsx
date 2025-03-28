@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { ButtonWhite, Header, Navigation, Tile } from "../components";
 import samplePhoto from "../assets/image.png";
 
@@ -19,9 +20,35 @@ function ListContainer({ list }) {
 }
 
 export function Portfolio() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const navItems = ["Solution In Action", "Learning Lab", "My Archive"];
+  // Use URL parameters instead of state
+  const { category } = useParams();
+  const navigate = useNavigate();
 
+  // Define portfolio categories
+  const portfolioCategories = [
+    { id: "solutions", label: "Solution In Action" },
+    { id: "learning-lab", label: "Learning Lab" },
+    { id: "archive", label: "My Archive" },
+  ];
+
+  // Redirect to default category if none specified
+  useEffect(() => {
+    if (!category) {
+      navigate("/portfolio/solutions", { replace: true });
+    }
+  }, [category, navigate]);
+
+  // Calculate the active index based on the current category
+  const activeIndex = portfolioCategories.findIndex(
+    (item) => item.id === category
+  );
+
+  // Handle category changes
+  const setActiveCategory = (index) => {
+    navigate(`/portfolio/${portfolioCategories[index].id}`);
+  };
+
+  // Project lists
   const solutionList = [
     { imgSrc: samplePhoto, title: "WhatsApp Must Act to Protect Elections" },
     { imgSrc: samplePhoto, title: "Privacy in the Digital Age" },
@@ -40,13 +67,14 @@ export function Portfolio() {
     { imgSrc: samplePhoto, title: "Digital Privacy Laws" },
   ];
 
+  // Get the current list based on the URL category
   const getCurrentList = () => {
-    switch (activeIndex) {
-      case 0:
+    switch (category) {
+      case "solutions":
         return solutionList;
-      case 1:
+      case "learning-lab":
         return learningList;
-      case 2:
+      case "archive":
         return archiveList;
       default:
         return solutionList;
@@ -62,9 +90,9 @@ export function Portfolio() {
       />
       <main className="py-6 md:py-8">
         <Navigation
-          navItems={navItems}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
+          navItems={portfolioCategories.map((item) => item.label)}
+          activeIndex={activeIndex !== -1 ? activeIndex : 0}
+          setActiveIndex={setActiveCategory}
         />
         <div className="mt-6 md:mt-8 mb-8 md:mb-12">
           <ListContainer list={getCurrentList()} />

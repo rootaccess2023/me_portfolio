@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { Header, Navigation } from "../components";
 import TechStack from "../components/about/TechStack";
 import WorkExperience from "../components/about/WorkExperience";
@@ -9,32 +10,50 @@ import ContactInformation from "../components/about/ContactInformation";
 import FAQ from "../components/about/FAQ";
 
 export function About() {
-  const [activeIndex, setActiveIndex] = useState(0);
+  // Use the URL parameter to determine which content to show
+  const { section } = useParams();
+  const navigate = useNavigate();
+
   const aboutItems = [
-    "Tech Stack",
-    "Work Experience",
-    "Development Approach",
-    "Education",
-    "Hobbies & Interest",
-    "Contact Information",
-    "FAQ",
+    { id: "tech-stack", label: "Tech Stack" },
+    { id: "work-experience", label: "Work Experience" },
+    { id: "development-approach", label: "Development Approach" },
+    { id: "education", label: "Education" },
+    { id: "hobbies", label: "Hobbies & Interest" },
+    { id: "contact", label: "Contact Information" },
+    { id: "faq", label: "FAQ" },
   ];
 
+  // Default to tech-stack if no section is specified
+  useEffect(() => {
+    if (!section) {
+      navigate("/about/tech-stack", { replace: true });
+    }
+  }, [section, navigate]);
+
+  // Find the active index based on the current section
+  const activeIndex = aboutItems.findIndex((item) => item.id === section);
+
+  // Handle changing sections
+  const setActiveSection = (index) => {
+    navigate(`/about/${aboutItems[index].id}`);
+  };
+
   const renderContent = () => {
-    switch (activeIndex) {
-      case 0:
+    switch (section) {
+      case "tech-stack":
         return <TechStack />;
-      case 1:
+      case "work-experience":
         return <WorkExperience />;
-      case 2:
+      case "development-approach":
         return <DevelopmentApproach />;
-      case 3:
+      case "education":
         return <Education />;
-      case 4:
+      case "hobbies":
         return <HobbiesAndInterest />;
-      case 5:
+      case "contact":
         return <ContactInformation />;
-      case 6:
+      case "faq":
         return <FAQ />;
       default:
         return <TechStack />;
@@ -50,9 +69,9 @@ export function About() {
       />
       <main>
         <Navigation
-          navItems={aboutItems}
-          activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
+          navItems={aboutItems.map((item) => item.label)}
+          activeIndex={activeIndex !== -1 ? activeIndex : 0}
+          setActiveIndex={setActiveSection}
         />
         {renderContent()}
       </main>
