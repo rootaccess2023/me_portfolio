@@ -12,6 +12,10 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
+        path: "/portfolio",
+        element: <Portfolio />,
+      },
+      {
         path: "/portfolio/:category",
         element: <Portfolio />,
       },
@@ -20,8 +24,16 @@ const router = createBrowserRouter([
         element: <Blog />,
       },
       {
+        path: "/about",
+        element: <About />,
+      },
+      {
         path: "/about/:section",
         element: <About />,
+      },
+      {
+        path: "/extras",
+        element: <Extras />,
       },
       {
         path: "/extras/:section",
