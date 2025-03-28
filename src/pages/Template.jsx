@@ -162,7 +162,7 @@ function Navigation() {
           title: "Extras",
           description:
             "Explore additional resources, tools, and side projects that complement my main portfolio work.",
-          cta: { text: "See Certificates", link: "/portfolio" },
+          cta: { text: "See Certificates", link: "/extras" },
         },
         sections: [
           {
