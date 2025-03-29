@@ -500,13 +500,6 @@ function Calendly() {
 }
 
 function Footer() {
-  const navList = [
-    { name: "About", link: "/about" },
-    { name: "Portfolio", link: "/portfolio" },
-    { name: "Extras", link: "/extras" },
-    { name: "Blog", link: "/blog" },
-  ];
-
   const iconList = [
     { name: <FaGithubAlt size={20} />, link: "https://github.com/" },
     {
@@ -519,19 +512,19 @@ function Footer() {
   return (
     <footer className="bg-black py-12">
       <div className="max-w-[1140px] mx-auto px-8">
-        {/* Row 1: Developer info, More about me, Navigation */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 text-white mb-12">
+        {/* Row 1: Developer info and More about me - half and half */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-white mb-12">
           <div>
             <p className="text-xl lg:text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
               Paulo Oliver - Front-End Developer
             </p>
-            <p className="text-base lg:text-lg mb-8">
+            <p className="text-base lg:text-lg mb-8 lg:mb-0">
               Building seamless, high-performance digital experiences with
               React, TypeScript, and cutting-edge web technologies.
             </p>
           </div>
 
-          <div>
+          <div className="w-full flex flex-col items-end">
             <p className="text-xl lg:text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
               More about me
             </p>
@@ -547,26 +540,9 @@ function Footer() {
               })}
             </ul>
           </div>
-
-          <div>
-            <p className="text-xl lg:text-[23.5px] font-zilla font-semibold leading-[1.3] mb-4">
-              Navigation
-            </p>
-            <ul className="flex flex-col gap-2">
-              {navList.map((item, index) => {
-                return (
-                  <a href={item.link} key={index}>
-                    <li className="text-base lg:text-lg cursor-pointer hover:underline hover:text-indigo-300 transition duration-300">
-                      {item.name}
-                    </li>
-                  </a>
-                );
-              })}
-            </ul>
-          </div>
         </div>
 
-        {/* Row 2: Get in Touch section */}
+        {/* Row 2: Get in Touch section - full width */}
         <div
           className="text-white border-t border-gray-800 pt-12 mb-12"
           data-section="contact"
